@@ -4,6 +4,8 @@ A Flask dashboard that reads your unread Gmail messages, drafts personalized
 replies with GPT-4o-mini using your own business info as context, and lets
 you send them with one click.
 
+
+
 ## File structure
 
 ```
@@ -91,10 +93,10 @@ OpenAI API, so it costs a small amount each time).
 ## Security notes
 
 - The app never marks emails as read on its own (IMAP connection opens the
-  inbox in read-only mode) — only Gmail marking them read in the normal way
+  inbox in read-only mode) only Gmail marking them read in the normal way
   will remove them from the "unread" list.
 - Drafts are held in memory only (`EMAIL_CACHE`) and are cleared when you
-  send a reply or refresh — nothing is persisted to disk.
+  send a reply or refresh nothing is persisted to disk.
 - Set `FLASK_SECRET_KEY` to a real random string before deploying anywhere
   beyond your own machine (`python -c "import secrets; print(secrets.token_hex(32))"`).
 - If you ever deploy this publicly, put authentication in front of it —
