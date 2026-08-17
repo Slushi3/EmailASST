@@ -4,7 +4,7 @@ A Flask dashboard that reads your unread Gmail messages, drafts personalized
 replies with GPT-4o-mini using your own business info as context, and lets
 you send them with one click.
 
-Interface.png
+![Dashboard screenshot](Interface.png)
 
 ## File structure
 
