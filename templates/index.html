@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Email Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel: #121212;
+    --panel-raised: #171717;
+    --red: #e8342b;
+    --red-dim: #7a1410;
+    --ink: #f3f1ec;
+    --muted: #8c8983;
+    --line: #2b2926;
+    --success: #4ade80;
+    --error: #ff6b5e;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Space Mono', ui-monospace, monospace;
+  }
+  h1, h2, .display {
+    font-family: 'Archivo Black', 'Arial Black', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    background: var(--bg);
+    border-bottom: 3px solid var(--ink);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+  .brand .mark {
+    background: var(--red);
+    color: var(--bg);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.45rem;
+    letter-spacing: 0.05em;
+  }
+  header h1 {
+    font-size: 1.35rem;
+    margin: 0;
+  }
+  header h1 .accent { color: var(--red); }
+
+  header form button {
+    background: var(--red);
+    color: var(--bg);
+    border: 2px solid var(--red);
+    padding: 0.65rem 1.25rem;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  header form button:hover {
+    background: transparent;
+    color: var(--red);
+  }
+
+  main {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .eyebrow::before { content: "✳"; }
+
+  .page-title {
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    margin: 0 0 2rem;
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 1.25rem;
+  }
+
+  /* ---------- Flash / error banners ---------- */
+  .flash {
+    padding: 0.9rem 1.1rem;
+    border: 2px solid;
+    margin-bottom: 1.25rem;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .flash.success { border-color: var(--success); color: var(--success); }
+  .flash.error { border-color: var(--error); color: var(--error); }
+
+  .banner-error {
+    background: var(--panel);
+    border: 3px solid var(--error);
+    color: var(--error);
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .banner-error strong { text-transform: uppercase; letter-spacing: 0.05em; }
+  .banner-error .hint {
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 5rem 1rem;
+    border: 2px dashed var(--line);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ---------- Email cards ---------- */
+  .email-card {
+    background: var(--panel);
+    border: 2px solid var(--ink);
+    margin-bottom: 1.75rem;
+    position: relative;
+  }
+  .email-card::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 14px;
+    height: 14px;
+    background: var(--red);
+  }
+
+  .email-meta {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 2px solid var(--line);
+  }
+  .email-meta .subject {
+    font-family: 'Archivo Black', sans-serif;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+  .email-meta .from {
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+  }
+  .email-meta .from .label {
+    color: var(--red);
+    font-weight: 700;
+    margin-right: 0.4rem;
+  }
+
+  .email-body-wrap { padding: 1.1rem 1.5rem 0; }
+  .section-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .section-label.red { color: var(--red); }
+
+  .email-body {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 0.9rem 1rem;
+    font-size: 0.82rem;
+    color: #c9c6c0;
+    max-height: 120px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  form.reply-form { padding: 0 1.5rem 1.5rem; }
+
+  textarea.draft {
+    width: 100%;
+    min-height: 130px;
+    padding: 0.9rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.88rem;
+    resize: vertical;
+  }
+  textarea.draft:focus {
+    outline: none;
+    border-color: var(--red);
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  .actions button {
+    background: var(--red);
+    color: var(--bg);
+    border: 2px solid var(--red);
+    padding: 0.7rem 1.4rem;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .actions button:hover {
+    background: transparent;
+    color: var(--red);
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 1.1rem 1.25rem; }
+    .page-title { font-size: 2rem; }
+    .email-meta .subject { font-size: 1.05rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="mark">AI</span>
+    <h1>MAIL<span class="accent">/</span>ASSIST</h1>
+  </div>
+  <form action="{{ url_for('refresh') }}" method="post">
+    <button type="submit">Refresh Inbox</button>
+  </form>
+</header>
+
+<main>
+  <div class="eyebrow">Unread &mdash; Drafted &mdash; Ready</div>
+  <h2 class="page-title">Inbox Queue</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% if error %}
+    <div class="banner-error">
+      <strong>Error:</strong> {{ error }}
+      <div class="hint">
+        Check your .env configuration (EMAIL_ADDRESS, EMAIL_APP_PASSWORD, OPENROUTER_API_KEY).
+      </div>
+    </div>
+  {% endif %}
+
+  {% if not error and emails|length == 0 %}
+    <div class="empty-state">All caught up &mdash; no unread mail</div>
+  {% endif %}
+
+  {% for item in emails %}
+    <div class="email-card">
+      <div class="email-meta">
+        <div class="subject">{{ item.subject }}</div>
+        <div class="from"><span class="label">From</span>{{ item.sender }} &lt;{{ item.sender_email }}&gt;</div>
+      </div>
+
+      <div class="email-body-wrap">
+        <div class="section-label">Original Message</div>
+        <div class="email-body">{{ item.body }}</div>
+      </div>
+
+      <form class="reply-form" action="{{ url_for('send', uid=item.uid) }}" method="post">
+        <div class="section-label red">AI-Suggested Reply &mdash; Editable</div>
+        <textarea class="draft" name="reply_body">{{ item.draft }}</textarea>
+        <div class="actions">
+          <button type="submit">Send Reply</button>
+        </div>
+      </form>
+    </div>
+  {% endfor %}
+</main>
+
+</body>
+</html>
