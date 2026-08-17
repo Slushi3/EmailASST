@@ -47,21 +47,12 @@ Core professional background includes:
 * AWS
 * Technical documentation
 
-He has electronics engineering internship experience at SCIENSCOPE SDN BHD, where he tested and assembled electronic products, designed PCB layouts for power electronics using Protel99 SE, and created circuit diagrams using Microsoft Visio.
-
-He also worked as a Research Assistant at Multimedia University, conducting research involving nanoparticles and wastewater treatment.
-
-He participated in the Robocon robotics team across Electrical/Electronics and Mechanical roles and has experience mentoring/judging robotics activities.
 
 --- EDUCATION ---
 
 Bachelor’s of Engineering (Hons.)
 Major: Nanotechnology
-Multimedia University
-November 2020 – February 2025
-
-Indian Community School, Kuwait
-April 2019 – March 2020
+............
 
 --- CERTIFICATIONS & AWARDS ---
 
@@ -125,8 +116,6 @@ IEEE publication/research profile:
 --- WORK EXPERIENCE ---
 
 Electronics Engineering Intern
-SCIENSCOPE SDN BHD, Puchong, Malaysia
-June – October 2023
 
 Responsibilities:
 
@@ -137,7 +126,7 @@ Responsibilities:
 
 Research Assistant
 Multimedia University, Cyberjaya, Malaysia
-June 2024 – January 2025
+
 
 Responsibilities:
 
@@ -148,19 +137,7 @@ Responsibilities:
 --- EXTRACURRICULAR EXPERIENCE ---
 
 IEEE MMU Student Branch — Treasurer
-December 2023 – March 2025
 
-Responsibilities included financial management, documentation, purchase approvals, and budgeting.
-
-Robotics Team Robocon
-September 2023 – April 2025
-
-Participated in Electrical/Electronics and Mechanical teams for Robocon robotics competitions.
-
-World Robotic Center — Mentor/Judge
-January 2024
-
-Served as a judge/mentor at the World Robotic Center in Malaysia.
 
 --- JOB APPLICATION RULES ---
 
@@ -295,8 +272,8 @@ Express interest in discussing the opportunity and thank the employer for consid
 Kind regards,
 Elton D’Mello
 Electronics Engineer
-Email: [eltondmelloee@gmail.com](mailto:eltondmelloee@gmail.com)
-Phone: +60146442093
+Email: ............
+Phone: .............
 
 --- IMPORTANT ADAPTATION RULE ---
 
